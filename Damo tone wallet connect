@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect TON Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ✅ Correct TON Connect UI SDK -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest"></script>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gradient-to-br from-[#1a0b2f] via-[#3a1c5c] to-[#1a0b2f] relative overflow-hidden">
+
+  <!-- Background Glow -->
+  <div class="absolute inset-0 bg-gradient-radial from-[#7b3cb6]/20 via-[#1a0b2f]/30 to-black/90 opacity-50 pointer-events-none"></div>
+
+  <!-- Main Panel -->
+  <div class="relative w-full max-w-md p-6 rounded-3xl shadow-2xl bg-black/80 text-white backdrop-blur-md border border-purple-600/20">
+    <h1 class="text-center text-2xl font-bold mb-6">TON Wallet Connect</h1>
+
+    <!-- Connect/Disconnect Button -->
+    <button 
+      id="connect-btn"
+      onclick="toggleWallet()" 
+      class="w-full flex items-center justify-between bg-[#1a1a1a] hover:bg-[#222] transition p-4 rounded-xl shadow-lg">
+
+      <div class="flex items-center gap-3">
+        <img src="https://i.postimg.cc/rp47J4hz/Screenshot-20251002-083518-1-1-1.png" 
+             alt="TON Logo" 
+             class="w-14 h-14 rounded-lg object-contain"/>
+        <span id="btn-text" class="text-lg font-medium">Connect TON Wallet</span>
+      </div>
+
+      <span class="text-gray-400 text-2xl">›</span>
+    </button>
+
+    <!-- Wallet Address -->
+    <div id="wallet-address" class="mt-6 text-center text-green-400 font-mono"></div>
+  </div>
+
+  <!-- Disconnect Popup -->
+  <div id="disconnect-popup" class="hidden fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+    <div class="bg-[#1a1a1a] p-6 rounded-2xl shadow-xl w-80 relative text-center">
+      
+      <!-- Close (X) -->
+      <button onclick="closePopup()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-xl">
+        ✕
+      </button>
+
+      <h2 class="text-xl font-bold mb-4">Disconnect TON Wallet?</h2>
+      <p class="text-gray-300 mb-6">Are you sure you want to disconnect?</p>
+
+      <div class="flex justify-between gap-4">
+        <button onclick="closePopup()" class="flex-1 py-2 bg-gray-600 rounded-lg hover:bg-gray-700 transition">
+          Cancel
+        </button>
+        <button onclick="confirmDisconnect()" class="flex-1 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition">
+          Disconnect
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ Create TON Connect UI instance
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://your-domain.com/tonconnect-manifest.json", // ← এখানে তোমার আসল URL বসাও
+    });
+
+    // ✅ Wallet connect/disconnect logic
+    async function toggleWallet() {
+      const account = tonConnectUI.account;
+      if (!account) {
+        try {
+          await tonConnectUI.connectWallet();
+          const acc = tonConnectUI.account;
+          if (acc) {
+            document.getElementById("wallet-address").innerText =
+              "✅ Connected: " + acc.address;
+            document.getElementById("btn-text").innerText = "Disconnect TON Wallet";
+          }
+        } catch (err) {
+          document.getElementById("wallet-address").innerText = "❌ Connection failed!";
+        }
+      } else {
+        document.getElementById("disconnect-popup").classList.remove("hidden");
+      }
+    }
+
+    async function confirmDisconnect() {
+      try {
+        await tonConnectUI.disconnect();
+        document.getElementById("wallet-address").innerText = "🔌 Wallet disconnected!";
+        document.getElementById("btn-text").innerText = "Connect TON Wallet";
+      } catch (err) {
+        document.getElementById("wallet-address").innerText = "❌ Disconnect failed!";
+      }
+      closePopup();
+    }
+
+    function closePopup() {
+      document.getElementById("disconnect-popup").classList.add("hidden");
+    }
+  </script>
+
+  <style>
+    .bg-gradient-radial {
+      background-image: radial-gradient(circle at top left, var(--tw-gradient-stops));
+    }
+  </style>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect TON Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- ✅ Correct TON Connect UI SDK -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest"></script>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gradient-to-br from-[#1a0b2f] via-[#3a1c5c] to-[#1a0b2f] relative overflow-hidden">
+
+  <!-- Background Glow -->
+  <div class="absolute inset-0 bg-gradient-radial from-[#7b3cb6]/20 via-[#1a0b2f]/30 to-black/90 opacity-50 pointer-events-none"></div>
+
+  <!-- Main Panel -->
+  <div class="relative w-full max-w-md p-6 rounded-3xl shadow-2xl bg-black/80 text-white backdrop-blur-md border border-purple-600/20">
+    <h1 class="text-center text-2xl font-bold mb-6">TON Wallet Connect</h1>
+
+    <!-- Connect/Disconnect Button -->
+    <button 
+      id="connect-btn"
+      onclick="toggleWallet()" 
+      class="w-full flex items-center justify-between bg-[#1a1a1a] hover:bg-[#222] transition p-4 rounded-xl shadow-lg">
+
+      <div class="flex items-center gap-3">
+        <img src="https://i.postimg.cc/rp47J4hz/Screenshot-20251002-083518-1-1-1.png" 
+             alt="TON Logo" 
+             class="w-14 h-14 rounded-lg object-contain"/>
+        <span id="btn-text" class="text-lg font-medium">Connect TON Wallet</span>
+      </div>
+
+      <span class="text-gray-400 text-2xl">›</span>
+    </button>
+
+    <!-- Wallet Address -->
+    <div id="wallet-address" class="mt-6 text-center text-green-400 font-mono"></div>
+  </div>
+
+  <!-- Disconnect Popup -->
+  <div id="disconnect-popup" class="hidden fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+    <div class="bg-[#1a1a1a] p-6 rounded-2xl shadow-xl w-80 relative text-center">
+      
+      <!-- Close (X) -->
+      <button onclick="closePopup()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-xl">
+        ✕
+      </button>
+
+      <h2 class="text-xl font-bold mb-4">Disconnect TON Wallet?</h2>
+      <p class="text-gray-300 mb-6">Are you sure you want to disconnect?</p>
+
+      <div class="flex justify-between gap-4">
+        <button onclick="closePopup()" class="flex-1 py-2 bg-gray-600 rounded-lg hover:bg-gray-700 transition">
+          Cancel
+        </button>
+        <button onclick="confirmDisconnect()" class="flex-1 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition">
+          Disconnect
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ Create TON Connect UI instance
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: "https://your-domain.com/tonconnect-manifest.json", // ← এখানে তোমার আসল URL বসাও
+    });
+
+    // ✅ Wallet connect/disconnect logic
+    async function toggleWallet() {
+      const account = tonConnectUI.account;
+      if (!account) {
+        try {
+          await tonConnectUI.connectWallet();
+          const acc = tonConnectUI.account;
+          if (acc) {
+            document.getElementById("wallet-address").innerText =
+              "✅ Connected: " + acc.address;
+            document.getElementById("btn-text").innerText = "Disconnect TON Wallet";
+          }
+        } catch (err) {
+          document.getElementById("wallet-address").innerText = "❌ Connection failed!";
+        }
+      } else {
+        document.getElementById("disconnect-popup").classList.remove("hidden");
+      }
+    }
+
+    async function confirmDisconnect() {
+      try {
+        await tonConnectUI.disconnect();
+        document.getElementById("wallet-address").innerText = "🔌 Wallet disconnected!";
+        document.getElementById("btn-text").innerText = "Connect TON Wallet";
+      } catch (err) {
+        document.getElementById("wallet-address").innerText = "❌ Disconnect failed!";
+      }
+      closePopup();
+    }
+
+    function closePopup() {
+      document.getElementById("disconnect-popup").classList.add("hidden");
+    }
+  </script>
+
+  <style>
+    .bg-gradient-radial {
+      background-image: radial-gradient(circle at top left, var(--tw-gradient-stops));
+    }
+  </style>
+
+</body>
+</html>
